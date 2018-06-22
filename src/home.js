@@ -7,7 +7,8 @@ import firebase from "firebase";
 class home extends Component {
   constructor(props) {
     super(props);
-
+   
+    
     this.state = {
       text: "",
       Bn: "",
@@ -18,10 +19,12 @@ class home extends Component {
       noey: [],
       art: [],
       mon: [],
-      sumB: "ยังไม่เสร็จโว้ยยย",
-      sumM: "ยังไม่เสร็จโว้ยยย",
-      sumN: "ยังไม่เสร็จโว้ยยย",
-      sumA: "ยังไม่เสร็จโว้ยยย"
+      sumB: 0,
+      sumM: 0,
+      sumN: 0,
+      sumA: 0,
+      test:[],
+      test2:[]
     };
     var config = {
       apiKey: "AIzaSyCPZtFdctQrB-SyR0sFfYWBW3CTpiqbDi4",
@@ -45,17 +48,25 @@ class home extends Component {
           Bn: snap.child(user + "/bank").key,
           Mn: snap.child(user + "/mon").key,
           Nn: snap.child(user + "/noey").key,
-          An: snap.child(user + "/art").key
+          An: snap.child(user + "/art").key,
+          
+          
         });
-        console.log(this.state.sum);
+        
+        
+ 
 
         let app = firebase.app();
         app.delete(app);
       });
     }
+   
   }
 
+ 
+ 
   render() {
+    let sum =0;
     return (
       <Animated
         animationIn="bounceInUp"
@@ -86,9 +97,15 @@ class home extends Component {
                   <h1 class="title">คุณลูกหนี้ -> {this.state.Bn}</h1>
                             <h2 class="subtitle">
                               {this.state.bank.map((index, val) => {
-                                 return <p key={val}>{index}</p>;
+                                let num = Number.parseInt(index);
+                                sum = sum +num;
+                                return  <p key={val}>{index}</p>
+                                 
                               })}
-                              <p>Total {this.state.sumB}</p>
+                              <p>Total {sum}</p>
+                              {
+                                sum = null
+                              }
                             </h2>
                             
                           </div>
@@ -108,9 +125,15 @@ class home extends Component {
                             <h1 class="title">คุณลูกหนี้ -> {this.state.Mn}</h1>
                             <h2 class="subtitle">
                               {this.state.mon.map(function(index, val) {
-                                 return <p key={val}>{index}</p>;
+                               let num = Number.parseInt(index);
+                               sum = sum +num;
+                               return  <p key={val}>{index}</p>
                               })}
-                              <p>Total {this.state.sumM}</p>
+                              <p>Total {sum}</p>
+                              {
+                                sum = null
+                              }
+                              
                             </h2>
                           </div>
                         </div>
@@ -130,10 +153,19 @@ class home extends Component {
                           <div>
                             <h1 class="title">คุณลูกหนี้ -> {this.state.Nn}</h1>
                             <h2 class="subtitle">
-                              {this.state.noey.map(function(index, val) {
-                                return <p key={val}>{index}</p>;
-                              })}
-                              <p>Total {this.state.sumN}</p>
+                              {
+                               
+                              this.state.noey.map(function(index, val) {
+                              let num = Number.parseInt(index);
+                              sum = sum +num;
+                              return  <p key={val}>{index}</p>
+                              })
+                              
+                              }
+                              <p>Total {sum}</p>
+                              {
+                                sum = null
+                              }
                             </h2>
                           </div>
                        
@@ -153,9 +185,14 @@ class home extends Component {
                             <h1 class="title">คุณลูกหนี้ -> {this.state.An}</h1>
                             <h2 class="subtitle">
                               {this.state.art.map(function(index, val) {
-                                return <p key={val}>{index}</p>;
+                               let num = Number.parseInt(index);
+                               sum = sum +num;
+                               return  <p key={val}>{index}</p>
                               })}
-                              <p>Total {this.state.sumA}</p>
+                              <p>Total {sum}</p>
+                              {
+                               sum = null
+                              }
                             </h2>
                           </div>
                        
