@@ -73,6 +73,7 @@ class home extends Component {
         animationOut="fadeOut"
         isVisible={true}
       >
+     
         <div className="tile">
           <section class="hero is-primary">
             <div class="hero-body">

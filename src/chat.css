@@ -1,0 +1,15 @@
+.chatButton {
+    position: fixed;
+   bottom: 50px;
+   left: 50px;
+   z-index: 5;
+}
+
+.conversation-container > .header {
+    background-color: red;
+  }
+  
+  .message > .response {
+    background-color: black;
+    color: white;
+  }

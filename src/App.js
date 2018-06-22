@@ -4,9 +4,11 @@ import Home from "./home";
 import Auth from "./Auth";
 import "./App.css";
 import { Animated } from "react-animated-css";
+import Chat from './Chat';
 
 
 class App extends Component {
+  
   constructor(props) {
     super(props);
     this.state = {
@@ -236,6 +238,7 @@ class App extends Component {
               ]
             : [<Route path="/" component={Auth} />]}
         </div>
+        <Chat />
       </div>
     );
   }
