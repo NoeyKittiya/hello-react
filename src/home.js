@@ -7,24 +7,13 @@ import firebase from "firebase";
 class home extends Component {
   constructor(props) {
     super(props);
-   
-    
+
+
     this.state = {
-      text: "",
-      Bn: "",
-      Nn: "",
-      Mn: "",
-      An: "",
-      bank: [],
-      noey: [],
-      art: [],
-      mon: [],
-      sumB: 0,
-      sumM: 0,
-      sumN: 0,
       sumA: 0,
-      test:[],
-      test2:[]
+      name: [],
+      val: [],
+      post: []
     };
     var config = {
       apiKey: "AIzaSyCPZtFdctQrB-SyR0sFfYWBW3CTpiqbDi4",
@@ -38,207 +27,102 @@ class home extends Component {
     if (!firebase.apps.length) {
       let user = this.props.name;
       this.app = firebase.initializeApp(config);
-      this.db = this.app.database().ref(user);
-      this.db.on("value", snap => {
-        this.setState({
-          bank: this.state.bank.concat(snap.val().bank),
-          noey: this.state.noey.concat(snap.val().noey),
-          art: this.state.art.concat(snap.val().art),
-          mon: this.state.mon.concat(snap.val().mon),
-          Bn: snap.child(user + "/bank").key,
-          Mn: snap.child(user + "/mon").key,
-          Nn: snap.child(user + "/noey").key,
-          An: snap.child(user + "/art").key,
-          
-          
-        });
-        
-        
- 
+      this.db = this.app.database().ref().child(user);
 
+      this.db.on("value", snap => {
+        snap.forEach(element => {
+    
+          this.setState({
+            name: element.key,
+            val: element.val()
+          })
+          
+          const postList = [
+          <Animated
+          animationIn="bounceInUp"
+          animationOut="fadeOut"
+          isVisible={true}
+        >
+            <section class="section">
+              <div class="container">
+                <div>
+                  <h1 class="title">คุณลูกหนี้ -> {this.state.name}</h1>
+                  <h2 class="subtitle">
+                    {
+                      this.state.val.map((item, i) => {
+                        let num = Number.parseInt(item);
+                        this.setState({
+                          sumA: this.state.sumA +num
+                        })
+                        
+                        return item+" "
+                      
+                    })
+
+                  }
+                  <p>Total {this.state.sumA}</p>
+                  {this.setState({sumA:0})}
+                  </h2>
+
+                </div>
+              </div>
+            </section>
+
+          </Animated>
+        ]
+          
+          this.setState({
+            post: this.state.post.concat(postList)
+          });
+
+        });
         let app = firebase.app();
         app.delete(app);
       });
+
     }
+    
    
   }
 
- 
- 
+  
+
   render() {
-    let sum =0;
+    
     return (
       <Animated
         animationIn="bounceInUp"
         animationOut="fadeOut"
         isVisible={true}
       >
-     
-        <div className="tile">
-          <section class="hero is-primary">
-            <div class="hero-body">
+
+        <div className="tile ">
+          <section class="hero is-primary is-rounded">
+            <div class="hero-body ">
               <div class="container">
-                <h1 class="title">สวัสดีคุณ {this.props.name}</h1>
+              <div className="head ">
+                <h1 class="title ">สวัสดีคุณ {this.props.name}</h1>
                 <h2 class="subtitle">#ขอให้ทวงหนี้แล้วได้คืนนะคะ</h2>
-
+              </div>
                 <div id="data">
-                <Animated
-        animationIn="bounceInUp"
-        animationOut="fadeOut"
-        isVisible={true}
-      >
-                  {this.state.Bn === this.props.name ? (
-                    ""
-                  ) : (
-                    
-                      <section class="section">
-                        <div class="container">
-                          <div>
-                               
-                  <h1 class="title">คุณลูกหนี้ -> {this.state.Bn}</h1>
-                            <h2 class="subtitle">
-                              {this.state.bank.map((index, val) => {
-                                let num = Number.parseInt(index);
-                                sum = sum +num;
-                                return  <p key={val}>{index}</p>
-                                 
-                              })}
-                              <p>Total {sum}</p>
-                              {
-                                sum = null
-                              }
-                            </h2>
-                            
-                          </div>
-                        </div>
-                      </section>
+                  <Animated animationIn="bounceInUp" animationOut="fadeOut" isVisible={true} >
+                  {
+                  this.state.post.map(function(item, i){
                    
-                  )}
-
-
-                  {this.state.Mn === this.props.name ? (
-                    ""
-                  ) : (
-                    
-                      <section class="section">
-                        <div class="container">
-                          <div>
-                            <h1 class="title">คุณลูกหนี้ -> {this.state.Mn}</h1>
-                            <h2 class="subtitle">
-                              {this.state.mon.map(function(index, val) {
-                               let num = Number.parseInt(index);
-                               sum = sum +num;
-                               return  <p key={val}>{index}</p>
-                              })}
-                              <p>Total {sum}</p>
-                              {
-                                sum = null
-                              }
-                              
-                            </h2>
-                          </div>
-                        </div>
-                      </section>
-                   
-                  )}
-
-
-
-                  {this.state.Nn === this.props.name ? (
-                          ""
-                        ) : (
-                
-                    <section class="section">
-                      <div class="container">
-                         
-                          <div>
-                            <h1 class="title">คุณลูกหนี้ -> {this.state.Nn}</h1>
-                            <h2 class="subtitle">
-                              {
-                               
-                              this.state.noey.map(function(index, val) {
-                              let num = Number.parseInt(index);
-                              sum = sum +num;
-                              return  <p key={val}>{index}</p>
-                              })
-                              
-                              }
-                              <p>Total {sum}</p>
-                              {
-                                sum = null
-                              }
-                            </h2>
-                          </div>
-                       
-                      </div>
-                    </section>
-                  
-                    )}
-
-                      {this.state.An === this.props.name ? (
-                          ""
-                        ) : (
-                 
-                    <section class="section">
-                      <div class="container">
-                      
-                          <div>
-                            <h1 class="title">คุณลูกหนี้ -> {this.state.An}</h1>
-                            <h2 class="subtitle">
-                              {this.state.art.map(function(index, val) {
-                               let num = Number.parseInt(index);
-                               sum = sum +num;
-                               return  <p key={val}>{index}</p>
-                              })}
-                              <p>Total {sum}</p>
-                              {
-                               sum = null
-                              }
-                            </h2>
-                          </div>
-                       
-                      </div>
-                    </section>
-                  
-                   )}
-
-                   </Animated>
+                      return <div>{item}</div>
+                  })
+                  }
+                  </Animated>
                 </div>
 
-                
 
-                {/* {this.state.Mn === this.props.name ? 
-                                     " "
-                                     : <h3 class="subtitle is-4 is-pulled-left">
-                                     <h2 class="title is-3 is-pulled-left">{this.state.Mn}</h2>
-                                     {
-                                        this.state.mon.map(function(index,val){return <li key={val} >{index}</li>})   
-                                     }
-                                     </h3>
-                                     } */}
-
-                {/* {this.state.An === this.props.name ? 
-                                     " "
-                                     : <h3 class="subtitle is-4 is-pulled-left">
-                                     <h2 class="title is-3 is-pulled-left">{this.state.An}</h2>
-                                     {
-                                        this.state.art.map(function(index,val){return <li key={val} >{index}</li>})   
-                                     }
-                                     </h3>
-                                     } */}
-
-                {/* {this.state.Nn === this.props.name ? 
-                                     " "
-                                     : <h3 class="subtitle is-4 is-pulled-left">
-                                     <h2 class="title is-3 is-pulled-left">{this.state.Nn}</h2>
-                                     {
-                                        this.state.noey.map(function(index,val){return <li key={val} >{index}</li>})   
-                                     }
-                                     </h3>
-                                     } */}
               </div>
             </div>
           </section>
+
+
+
+          
         </div>
       </Animated>
     );

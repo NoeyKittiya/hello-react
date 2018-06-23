@@ -115,10 +115,10 @@ class App extends Component {
                         style={{ width: "50px" }}
                         alt="Coin"
                       />
-                      <strong>หนี้สิน @2302</strong>
+                      <strong>หนี้สิน on Cloud</strong>
                     </h1>
                     <h2 class="subtitle">
-                      <code>#ยืมแล้วใช้กันด้วยนะจ้ะ</code>
+                      <code>#หนี้นี้จะไม่มีวันจางหายไปไหน!(ยกเว้นเว็บพัง)</code>
                     </h2>
                   </div>
 
@@ -238,7 +238,7 @@ class App extends Component {
               ]
             : [<Route path="/" component={Auth} />]}
         </div>
-        <Chat />
+        <Chat name={this.state.name}/>
       </div>
     );
   }
