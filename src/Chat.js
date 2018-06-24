@@ -19,7 +19,7 @@ class Chat extends Component {
     componentDidMount() {
         
         
-        addResponseMessage("น้องหนี้พร้อมรับใช้ครับ \n \n -------------- \n \n ลบหนี้ /d ตามด้วยชื่อ \n \n เพิ่มหนี้ /a ตามด้วยชื่อ \n \n เพิ่มหนี้ /ac ตามด้วยชื่อ" );
+        addResponseMessage("น้องหนี้พร้อมรับใช้ครับ \n \n -------------- \n \n ลบหนี้ /d ตามด้วยชื่อ \n \n เพิ่มหนี้ /a ชื่อ จำนวนเงิน \n \n " );
     }
     handleNewUserMessage = (newMessage) => {
       
@@ -62,15 +62,13 @@ class Chat extends Component {
             
             this.db = this.app.database().ref(user+"/"+name)
             this.db.push({num:money})
-           
+            addResponseMessage("เรียบร้อยครับ^^")
             
         }
-        else if (mode === "/ac") {
-        
-            console.log("asdasd")
-           
-           
-            
+        else{
+      
+            addResponseMessage("คำสั่งไม่ถูกต้องนะครับ!!")
+            addResponseMessage("ลบหนี้ /d ตามด้วยชื่อ \n \n เพิ่มหนี้ /a ชื่อ จำนวนเงิน \n \n " );
         }
         console.log(`New message incomig! ${newMessage}`);
 
@@ -80,12 +78,22 @@ class Chat extends Component {
         return (
 
             <div className="chatButton">
-                <Widget
+             {
+                 this.props.how ? 
+                 [
+                    <Widget
                     handleNewUserMessage={this.handleNewUserMessage}
                     profileAvatar={'https://image.flaticon.com/icons/svg/682/682037.svg'}
                     title="น้องหนี้"
-                    subtitle="#ให้เราช่วยดูแลหนี้คุณ"
-                />
+                    subtitle="#ให้เราช่วยดูแลหนี้คุณ"/>
+                 ]
+                 :
+                 [
+                    " "
+
+                 ]
+             }
+                
 
             </div>
 

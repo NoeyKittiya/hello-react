@@ -238,7 +238,8 @@ class App extends Component {
               ]
             : [<Route path="/" component={Auth} />]}
         </div>
-        <Chat name={this.state.name}/>
+        <Chat name={this.state.name} how={this.state.user} />
+        
       </div>
     );
   }
