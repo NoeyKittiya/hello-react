@@ -24,53 +24,78 @@ class home extends Component {
       messagingSenderId: "72060197826"
     };
 
-    if (!firebase.apps.length) {
+   
       let user = this.props.name;
-      this.app = firebase.initializeApp(config);
-      this.db = this.app.database().ref().child(user);
+      if (!firebase.apps.length) {
+        this.app = firebase.initializeApp(config);
+        console.log('open')
+    }else{
+        this.app = firebase.app();
+        
+        
+         }
+      this.db = this.app.database().ref(user);
 
       this.db.on("value", snap => {
+
         snap.forEach(element => {
-    
           this.setState({
             name: element.key,
-            val: element.val()
+           
+
           })
-          
+          let keyN = element.key
+          this.db2 = this.app.database().ref(user+"/"+ keyN);
+          this.db2.on("value", snap2 => {
+           
+            snap2.forEach(element2 => {
+            this.setState({
+              val: this.state.val.concat(element2.val().num)
+            })
+           
+            })
+
+          })
+         
+         
+
+
           const postList = [
-          <Animated
-          animationIn="bounceInUp"
-          animationOut="fadeOut"
-          isVisible={true}
-        >
-            <section class="section">
-              <div class="container">
-                <div>
-                  <h1 class="title">คุณลูกหนี้ -> {this.state.name}</h1>
-                  <h2 class="subtitle">
-                    {
-                      this.state.val.map((item, i) => {
-                        let num = Number.parseInt(item);
-                        this.setState({
-                          sumA: this.state.sumA +num
+            <Animated
+              animationIn="bounceInUp"
+              animationOut="fadeOut"
+              isVisible={true}
+            >
+              <section class="section">
+                <div class="container">
+                  <div>
+                    <h1 class="title">คุณลูกหนี้ -> {this.state.name}</h1>
+                    <h2 class="subtitle">
+                      {
+
+                        this.state.val.map((item, i) => {
+                          let num = Number.parseInt(item);
+                          this.setState({
+                            sumA: this.state.sumA +num,
+                            val:  []
+                          })
+
+                          return item+" "
+                          
                         })
-                        
-                        return item+" "
-                      
-                    })
 
-                  }
-                  <p>Total {this.state.sumA}</p>
-                  {this.setState({sumA:0})}
-                  </h2>
+                      }
+                      <p>Total {this.state.sumA}</p>
+                      {this.setState({ sumA: 0 })}
+                    </h2>
 
+                  </div>
                 </div>
-              </div>
-            </section>
+              </section>
 
-          </Animated>
-        ]
-          
+            </Animated>
+          ]
+
           this.setState({
             post: this.state.post.concat(postList)
           });
@@ -80,15 +105,15 @@ class home extends Component {
         app.delete(app);
       });
 
-    }
     
-   
+
+
   }
 
-  
+
 
   render() {
-    
+
     return (
       <Animated
         animationIn="bounceInUp"
@@ -100,18 +125,18 @@ class home extends Component {
           <section class="hero is-primary is-rounded">
             <div class="hero-body ">
               <div class="container">
-              <div className="head ">
-                <h1 class="title ">สวัสดีคุณ {this.props.name}</h1>
-                <h2 class="subtitle">#ขอให้ทวงหนี้แล้วได้คืนนะคะ</h2>
-              </div>
+                <div className="head ">
+                  <h1 class="title ">สวัสดีคุณ {this.props.name}</h1>
+                  <h2 class="subtitle">#ขอให้ทวงหนี้แล้วได้คืนนะคะ</h2>
+                </div>
                 <div id="data">
                   <Animated animationIn="bounceInUp" animationOut="fadeOut" isVisible={true} >
-                  {
-                  this.state.post.map(function(item, i){
-                   
-                      return <div>{item}</div>
-                  })
-                  }
+                    {
+                      this.state.post.map(function (item, i) {
+
+                        return <div>{item}</div>
+                      })
+                    }
                   </Animated>
                 </div>
 
@@ -122,7 +147,7 @@ class home extends Component {
 
 
 
-          
+
         </div>
       </Animated>
     );
