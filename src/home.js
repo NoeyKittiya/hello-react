@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import "./home.css";
 import { Animated } from "react-animated-css";
 import firebase from "firebase";
-import Chat from './Chat';
+
 
 class home extends Component {
   constructor(props) {
@@ -22,18 +22,16 @@ class home extends Component {
   }
 
   isLoad(){
-    var config = {
-      apiKey: "AIzaSyCPZtFdctQrB-SyR0sFfYWBW3CTpiqbDi4",
-      authDomain: "finapp-1c327.firebaseapp.com",
-      databaseURL: "https://finapp-1c327.firebaseio.com",
-      projectId: "finapp-1c327",
-      storageBucket: "finapp-1c327.appspot.com",
-      messagingSenderId: "72060197826"
-    };
-
-   
       let user = this.props.name;
       if (!firebase.apps.length) {
+        var config = {
+          apiKey: "AIzaSyCPZtFdctQrB-SyR0sFfYWBW3CTpiqbDi4",
+          authDomain: "finapp-1c327.firebaseapp.com",
+          databaseURL: "https://finapp-1c327.firebaseio.com",
+          projectId: "finapp-1c327",
+          storageBucket: "finapp-1c327.appspot.com",
+          messagingSenderId: "72060197826"
+        };
         this.app = firebase.initializeApp(config);
         console.log('open at home')
     }else{
@@ -81,7 +79,7 @@ class home extends Component {
                       {
 
                         this.state.val.map((item, i) => {
-                          let num = Number.parseInt(item);
+                          let num =  parseInt(item,Number)
                           this.setState({
                             sumA: this.state.sumA +num,
                             val:  []

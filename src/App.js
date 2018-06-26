@@ -25,7 +25,7 @@ class App extends Component {
   }
 
   isLogin() {
-    this.setState({load: true})
+    this.setState({ load: true })
     var config = {
       apiKey: "AIzaSyCPZtFdctQrB-SyR0sFfYWBW3CTpiqbDi4",
       authDomain: "finapp-1c327.firebaseapp.com",
@@ -37,35 +37,45 @@ class App extends Component {
 
     if (!firebase.apps.length) {
       this.app = firebase.initializeApp(config);
-      console.log('open at register')
+      console.log('open at app')
     } else {
       this.app = firebase.app();
     }
     if (this.state.name !== "") {
       this.db = this.app.database().ref("userInfo");
       this.db.on("value", snap => {
-        snap.forEach(element => {
-          let named = element.val().userName
-          let name = this.state.name
-          if (name.toLowerCase() === named.toLowerCase()) {
-            let pass = element.val().passWord
-            let passes = this.state.pass
-            if( passes === pass){
-              this.setState({
-                user: true,
-                show: false,
-                load: false
-              })
-            }else {
-            this.setState({
-             show: true,
-             load: false
-              
-            })
-          }
-        }
+        if (snap.val() != null) {
+          snap.forEach(element => {
+            let named = element.val().userName
+            let name = this.state.name
+            if (name.toLowerCase() === named.toLowerCase()) {
+              let pass = element.val().passWord
+              let passes = this.state.pass
+              if (passes === pass) {
+                this.setState({
+                  user: true,
+                  show: false,
+                  load: false
+                })
+              } else {
+                this.setState({
+                  show: true,
+                  load: false
+  
+                })
+              }
+            }
+  
+          })
+        } else {
+          this.setState({
+            show: true,
+            load: false
+          })
 
-        })
+
+        }
+       
 
       })
     } else {
@@ -77,7 +87,7 @@ class App extends Component {
 
 
 
-   
+
   }
   isLoginKey(e) {
     if (e.key === "Enter") {
@@ -133,9 +143,9 @@ class App extends Component {
               isVisible={true}
             >
               <div>
-                <div class="columns">
-                  <div class="column is-three-fifths">
-                    <h1 class="title">
+                <div className="columns">
+                  <div className="column is-three-fifths">
+                    <h1 className="title">
                       <img
                         src="https://image.flaticon.com/icons/svg/138/138292.svg"
                         style={{ width: "50px" }}
@@ -143,28 +153,28 @@ class App extends Component {
                       />
                       <strong>หนี้สิน on Cloud</strong>
                     </h1>
-                    <h2 class="subtitle">
+                    <h2 className="subtitle">
                       <code>#หนี้นี้จะไม่มีวันจางหายไปไหน!(ยกเว้นเว็บพัง)</code>
                     </h2>
                   </div>
 
                   <div className="column is-1 " />
 
-                  <div class="column is-1" id="A">
+                  <div className="column is-1" id="A">
                     {this.state.user
-                      ? [
+                      ? 
                         <Animated
                           animationIn="flipInX"
                           animationOut="fadeOut"
                           isVisible={true}
                         >
-                          <strong class="has-text-grey">
+                          <strong className="has-text-grey">
                             {"Welcome " + this.state.name + "!"}
                           </strong>
                         </Animated>
-                      ]
-                      : [
-                        <strong class="has-text-grey">
+                      
+                      : 
+                        <strong className="has-text-grey">
                           <Animated
                             animationIn="flipInX"
                             animationOut="fadeOut"
@@ -173,18 +183,18 @@ class App extends Component {
                             Welcome Guest!{" "}
                           </Animated>
                         </strong>
-                      ]}
+                      }
                   </div>
 
-                  <div class="column is-2 is-gapless ">
+                  <div className="column is-2 is-gapless ">
                     {this.state.show
-                      ? [
+                      ? 
                         <Animated
                           animationIn="flipInX"
                           animationOut="fadeOut"
                           isVisible={true}
                         >
-                          <div id="BB" class="column has-text-centered ">
+                          <div id="BB" className="column has-text-centered ">
                             <div class="notification is-danger">
                               <button
                                 class="delete"
@@ -194,9 +204,9 @@ class App extends Component {
                               </div>
                           </div>
                         </Animated>
-                      ]
-                      : [
-                        this.state.user ? (
+                      
+                      : 
+                        this.state.user ? 
                           <Animated
                             animationIn="flipInX"
                             animationOut="flipInX"
@@ -212,7 +222,7 @@ class App extends Component {
                               </button>
                             </div>
                           </Animated>
-                        ) : (
+                         : 
                             <div class="column has-text-centered ">
                               <Animated
                                 animationIn="flipInX"
@@ -241,7 +251,7 @@ class App extends Component {
 
                                 <a
                                   style={{ marginTop: 5, marginRight: 2 }}
-                                  class={this.state.load ? "button is-primary is-rounded is-small is-loading" : "button is-primary is-rounded is-small " }
+                                  class={this.state.load ? "button is-primary is-rounded is-small is-loading" : "button is-primary is-rounded is-small "}
                                   onClick={this.isLogin}
                                 >
                                   Login
@@ -256,8 +266,8 @@ class App extends Component {
                                 </a>
                               </Animated>
                             </div>
-                          )
-                      ]}
+                          
+                      }
                   </div>
                 </div>
               </div>
@@ -271,9 +281,9 @@ class App extends Component {
             :
             <div>
               {this.state.regis ?
-                [<Route path="/" component={Register} />]
+                <Route path="/" component={Register} />
                 :
-                [<Route path="/" component={Auth} />]
+                <Route path="/" component={Auth} />
               }
 
             </div>

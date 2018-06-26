@@ -1,10 +1,9 @@
 import React, { Component } from "react";
-import { Animated } from "react-animated-css";
 import firebase from "firebase";
 import './chat.css'
 import { Widget, addResponseMessage } from 'react-chat-widget';
 import 'react-chat-widget/lib/styles.css';
-import Home from "./home";
+
 
 
 class Chat extends Component {
@@ -28,7 +27,7 @@ class Chat extends Component {
         let nameStr = newMessage.substring(3, 100);
         let name = nameStr.substring(0, nameStr.indexOf(' '))
         let moneyStr = nameStr.substring(nameStr.indexOf(' ') + 1);
-        let money = Number.parseInt(moneyStr)
+        let money = parseInt(moneyStr,Number)
         console.log(mode);
         console.log(name);
         console.log(money);
@@ -86,6 +85,7 @@ class Chat extends Component {
                 storageBucket: "finapp-1c327.appspot.com",
                 messagingSenderId: "72060197826"
             };
+           
             if (!firebase.apps.length) {
                 this.app = firebase.initializeApp(config);
                 console.log('open at add method')
@@ -94,7 +94,7 @@ class Chat extends Component {
                 this.app = firebase.app();
 
             }
-            let num = 0
+           
             console.log(mode + " Mode")
             let user = this.props.name;
 
@@ -119,18 +119,18 @@ class Chat extends Component {
             <div className="chatButton">
                 {
                     this.props.how ?
-                        [
+                        
                             <Widget
                                 handleNewUserMessage={this.handleNewUserMessage}
                                 profileAvatar={'https://image.flaticon.com/icons/svg/682/682037.svg'}
                                 title="น้องหนี้"
                                 subtitle="#ให้เราช่วยดูแลหนี้คุณ" />
-                        ]
+                        
                         :
-                        [
+                        
                             " "
 
-                        ]
+                        
                 }
 
 
