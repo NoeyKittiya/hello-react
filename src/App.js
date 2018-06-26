@@ -2,20 +2,22 @@ import React, { Component } from "react";
 import { Route } from "react-router-dom";
 import Home from "./home";
 import Auth from "./Auth";
+import Register from "./register";
 import "./App.css";
 import { Animated } from "react-animated-css";
 import Chat from './Chat';
 
 
 class App extends Component {
-  
+
   constructor(props) {
     super(props);
     this.state = {
       user: false,
       name: "",
       pass: "",
-      show: false
+      show: false,
+      regis: false,
     };
     this.isLogin = this.isLogin.bind(this);
     this.isLogout = this.isLogout.bind(this);
@@ -127,66 +129,66 @@ class App extends Component {
                   <div class="column is-1" id="A">
                     {this.state.user
                       ? [
+                        <Animated
+                          animationIn="flipInX"
+                          animationOut="fadeOut"
+                          isVisible={true}
+                        >
+                          <strong>
+                            {"Welcome " + this.state.name + "! "}
+                          </strong>
+                        </Animated>
+                      ]
+                      : [
+                        <strong>
                           <Animated
                             animationIn="flipInX"
                             animationOut="fadeOut"
                             isVisible={true}
                           >
-                            <strong>
-                              {"Welcome " + this.state.name + "! "}
-                            </strong>
+                            Welcome Guest!{" "}
                           </Animated>
-                        ]
-                      : [
-                          <strong>
-                            <Animated
-                              animationIn="flipInX"
-                              animationOut="fadeOut"
-                              isVisible={true}
-                            >
-                              Welcome Guest!{" "}
-                            </Animated>
-                          </strong>
-                        ]}
+                        </strong>
+                      ]}
                   </div>
 
                   <div class="column is-2 is-gapless ">
                     {this.state.show
                       ? [
+                        <Animated
+                          animationIn="flipInX"
+                          animationOut="fadeOut"
+                          isVisible={true}
+                        >
+                          <div id="BB" class="column has-text-centered ">
+                            <div class="notification is-danger">
+                              <button
+                                class="delete"
+                                onClick={e => this.setState({ show: false })}
+                              />
+                              ชื่อ / รหัส ผิดน้าา ลองใหม่นะจ้ะ :)
+                              </div>
+                          </div>
+                        </Animated>
+                      ]
+                      : [
+                        this.state.user ? (
                           <Animated
                             animationIn="flipInX"
-                            animationOut="fadeOut"
+                            animationOut="flipInX"
                             isVisible={true}
                           >
-                            <div id="BB" class="column has-text-centered ">
-                              <div class="notification is-danger">
-                                <button
-                                  class="delete"
-                                  onClick={e => this.setState({ show: false })}
-                                />
-                                ชื่อ / รหัส ผิดน้าา ลองใหม่นะจ้ะ :)
-                              </div>
+                            <div class="column has-text-centered ">
+                              <button
+                                id="B"
+                                class="button is-dark is-rounded"
+                                onClick={this.isLogout}
+                              >
+                                {this.state.user ? "Logout" : "Login"}
+                              </button>
                             </div>
                           </Animated>
-                        ]
-                      : [
-                          this.state.user ? (
-                            <Animated
-                              animationIn="flipInX"
-                              animationOut="flipInX"
-                              isVisible={true}
-                            >
-                              <div class="column has-text-centered ">
-                                <button
-                                  id="B"
-                                  class="button is-dark is-rounded"
-                                  onClick={this.isLogout}
-                                >
-                                  {this.state.user ? "Logout" : "Login"}
-                                </button>
-                              </div>
-                            </Animated>
-                          ) : (
+                        ) : (
                             <div class="column has-text-centered ">
                               <Animated
                                 animationIn="flipInX"
@@ -203,6 +205,7 @@ class App extends Component {
                                 />
 
                                 <input
+                                  style={{ marginTop: 2 }}
                                   class="input is-primary is-rounded  is-small"
                                   type="password"
                                   placeholder="Password"
@@ -213,15 +216,24 @@ class App extends Component {
                                 />
 
                                 <a
-                                  class="button is-primary is-rounded is-pulled-center "
+                                  style={{ marginTop: 5, marginRight: 2 }}
+                                  class="button is-primary is-rounded is-small "
                                   onClick={this.isLogin}
                                 >
                                   Login
                                 </a>
+
+                                <a
+                                  style={{ marginTop: 5 }}
+                                  class="button is-primary is-rounded is-small "
+                                  onClick={e => this.setState({regis: true})}
+                                >
+                                  Sign up
+                                </a>
                               </Animated>
                             </div>
                           )
-                        ]}
+                      ]}
                   </div>
                 </div>
               </div>
@@ -229,17 +241,29 @@ class App extends Component {
           </div>
         </div>
         <div className="App container">
-          {this.state.user
-            ? [
-                <Route
-                  path="/"
-                  component={() => <Home name={this.state.name} />}
-                />
-              ]
-            : [<Route path="/" component={Auth} />]}
+          {this.state.user ? 
+     
+            [<Route path="/" component={() => <Home name={this.state.name} />} />]
+            : 
+            <div>
+              {this.state.regis ?
+                [<Route path="/" component={Register} />]
+            :
+            [<Route path="/" component={Auth} />]
+            }
+
+            </div>
+          
+            
+            
+            
+            
+        }
+            
+
         </div>
         <Chat name={this.state.name} how={this.state.user} />
-        
+
       </div>
     );
   }

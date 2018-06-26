@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import "./home.css";
 import { Animated } from "react-animated-css";
 import firebase from "firebase";
-
+import Chat from './Chat';
 
 class home extends Component {
   constructor(props) {
@@ -15,6 +15,13 @@ class home extends Component {
       val: [],
       post: []
     };
+
+
+    this.isLoad = this.isLoad.bind(this)
+
+  }
+
+  isLoad(){
     var config = {
       apiKey: "AIzaSyCPZtFdctQrB-SyR0sFfYWBW3CTpiqbDi4",
       authDomain: "finapp-1c327.firebaseapp.com",
@@ -105,11 +112,16 @@ class home extends Component {
         app.delete(app);
       });
 
-    
 
 
+      
   }
 
+  componentDidMount(){
+    this.isLoad();
+   
+  }
+ 
 
 
   render() {

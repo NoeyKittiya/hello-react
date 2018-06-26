@@ -17,12 +17,12 @@ class auth extends Component {
 
         return (
 
-            <div className="Auth">
+            <div className="Auth" id="AA">
 
                 <Animated animationIn="bounceInLeft" animationOut="fadeOut" isVisible={true}>
                     <div>
                     <p class="title is-1 ">Stop !</p>
-                <p class="subtitle is-3">Just Login</p>
+                <p class="subtitle is-3">Just Login, If you never have account just click sign up</p>
                     </div>
                 </Animated>
 
