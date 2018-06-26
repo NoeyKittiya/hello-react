@@ -21,105 +21,106 @@ class home extends Component {
 
   }
 
-  isLoad(){
-      let user = this.props.name;
-      if (!firebase.apps.length) {
-        var config = {
-          apiKey: "AIzaSyCPZtFdctQrB-SyR0sFfYWBW3CTpiqbDi4",
-          authDomain: "finapp-1c327.firebaseapp.com",
-          databaseURL: "https://finapp-1c327.firebaseio.com",
-          projectId: "finapp-1c327",
-          storageBucket: "finapp-1c327.appspot.com",
-          messagingSenderId: "72060197826"
-        };
-        this.app = firebase.initializeApp(config);
-        console.log('open at home')
-    }else{
-        this.app = firebase.app();
-        
-        
-         }
-      this.db = this.app.database().ref(user);
+  isLoad() {
 
-      this.db.on("value", snap => {
+    let user = this.props.name;
+    if (!firebase.apps.length) {
+      var config = {
+        apiKey: "AIzaSyCPZtFdctQrB-SyR0sFfYWBW3CTpiqbDi4",
+        authDomain: "finapp-1c327.firebaseapp.com",
+        databaseURL: "https://finapp-1c327.firebaseio.com",
+        projectId: "finapp-1c327",
+        storageBucket: "finapp-1c327.appspot.com",
+        messagingSenderId: "72060197826"
+      };
+      this.app = firebase.initializeApp(config);
+      console.log('open at home')
+    } else {
+      this.app = firebase.app();
+    }
 
-        snap.forEach(element => {
-          this.setState({
-            name: element.key,
-           
 
-          })
-          let keyN = element.key
-          this.db2 = this.app.database().ref(user+"/"+ keyN);
-          this.db2.on("value", snap2 => {
-           
-            snap2.forEach(element2 => {
+    this.db = this.app.database().ref(user);
+
+    this.db.on("value", snap => {
+
+      snap.forEach(element => {
+        this.setState({
+          name: element.key,
+
+
+        })
+        let keyN = element.key
+        this.db2 = this.app.database().ref(user + "/" + keyN);
+        this.db2.on("value", snap2 => {
+
+          snap2.forEach(element2 => {
             this.setState({
               val: this.state.val.concat(element2.val().num)
             })
-           
-            })
 
           })
-         
-         
+
+        })
 
 
-          const postList = [
-            <Animated
-              animationIn="bounceInUp"
-              animationOut="fadeOut"
-              isVisible={true}
-            >
-              <section class="section">
-                <div class="container">
-                  <div>
-                    <h1 class="title">คุณลูกหนี้ -> {this.state.name}</h1>
-                    <h2 class="subtitle">
-                      {
 
-                        this.state.val.map((item, i) => {
-                          let num =  parseInt(item,Number)
-                          this.setState({
-                            sumA: this.state.sumA +num,
-                            val:  []
-                          })
 
-                          return item+" "
-                          
+        const postList = [
+          <Animated
+            animationIn="bounceInUp"
+            animationOut="fadeOut"
+            isVisible={true}
+          >
+            <section class="section">
+              <div class="container">
+                <div>
+                  <h1 class="title">คุณลูกหนี้ -> {this.state.name}</h1>
+                  <h2 class="subtitle">
+                    {
+
+                      this.state.val.map((item, i) => {
+                        let num = parseInt(item, Number)
+                        this.setState({
+                          sumA: this.state.sumA + num,
+                          val: []
                         })
 
-                      }
-                      <p>Total {this.state.sumA}</p>
-                      {this.setState({ sumA: 0 })}
-                    </h2>
+                        return item + " "
 
-                  </div>
+                      })
+
+                    }
+                    <p>Total {this.state.sumA}</p>
+                    {this.setState({ sumA: 0 })}
+                  </h2>
+
                 </div>
-              </section>
+              </div>
+            </section>
 
-            </Animated>
-          ]
+          </Animated>
+        ]
 
-          this.setState({
-            post: this.state.post.concat(postList)
-          });
-
+        this.setState({
+          post: this.state.post.concat(postList)
         });
-        let app = firebase.app();
-        app.delete(app);
+
       });
+      let app = firebase.app();
+      app.delete(app);
+    });
 
 
 
-      
+
   }
 
-  componentDidMount(){
+  componentDidMount() {
     this.isLoad();
-   
+
   }
- 
+
 
 
   render() {

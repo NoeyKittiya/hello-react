@@ -3,7 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@line/bot-sdk": "^6.1.0",
+    "express": "^4.16.3",
     "firebase": "^5.0.4",
+    "line-api": "^0.1.4",
     "react": "^16.4.1",
     "react-animated-css": "^1.0.4",
     "react-chat-widget": "^2.1.3",

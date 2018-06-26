@@ -41,13 +41,20 @@ class App extends Component {
     } else {
       this.app = firebase.app();
     }
-    if (this.state.name !== "") {
-      this.db = this.app.database().ref("userInfo");
+
+    this.db = this.app.database().ref("userInfo");
+    if (this.state.name !== "" && this.state.pass !== "") {
+    
+
       this.db.on("value", snap => {
         if (snap.val() != null) {
+          this.setState({
+            load: false
+          })
           snap.forEach(element => {
             let named = element.val().userName
             let name = this.state.name
+            
             if (name.toLowerCase() === named.toLowerCase()) {
               let pass = element.val().passWord
               let passes = this.state.pass
@@ -57,17 +64,16 @@ class App extends Component {
                   show: false,
                   load: false
                 })
-              } else {
-                this.setState({
-                  show: true,
-                  load: false
-  
-                })
               }
+             
+              
+
             }
-  
+
+
           })
         } else {
+          console.log('2.2')
           this.setState({
             show: true,
             load: false
@@ -75,10 +81,11 @@ class App extends Component {
 
 
         }
-       
+
 
       })
     } else {
+      console.log('1.2')
       this.setState({
         show: true,
         load: false
@@ -88,39 +95,80 @@ class App extends Component {
 
 
 
+
   }
   isLoginKey(e) {
     if (e.key === "Enter") {
-      if ((this.state.name === "art") & (this.state.name === this.state.pass)) {
-        this.setState({
-          user: true
-        });
-      } else if (
-        (this.state.name === "mon") &
-        (this.state.name === this.state.pass)
-      ) {
-        this.setState({
-          user: true
-        });
-      } else if (
-        (this.state.name === "bank") &
-        (this.state.name === this.state.pass)
-      ) {
-        this.setState({
-          user: true
-        });
-      } else if (
-        (this.state.name === "noey") &
-        (this.state.name === this.state.pass)
-      ) {
-        this.setState({
-          user: true
-        });
+      this.setState({ load: true })
+      var config = {
+        apiKey: "AIzaSyCPZtFdctQrB-SyR0sFfYWBW3CTpiqbDi4",
+        authDomain: "finapp-1c327.firebaseapp.com",
+        databaseURL: "https://finapp-1c327.firebaseio.com",
+        projectId: "finapp-1c327",
+        storageBucket: "finapp-1c327.appspot.com",
+        messagingSenderId: "72060197826"
+      };
+
+      if (!firebase.apps.length) {
+        this.app = firebase.initializeApp(config);
+        console.log('open at app')
       } else {
-        this.setState({
-          show: true
-        });
+        this.app = firebase.app();
       }
+
+      this.db = this.app.database().ref("userInfo");
+      if (this.state.name !== "" && this.state.pass !== "") {
+      
+
+        this.db.on("value", snap => {
+          if (snap.val() != null) {
+            this.setState({
+              load: false
+            })
+            snap.forEach(element => {
+              let named = element.val().userName
+              let name = this.state.name
+              
+              if (name.toLowerCase() === named.toLowerCase()) {
+                let pass = element.val().passWord
+                let passes = this.state.pass
+                if (passes === pass) {
+                  this.setState({
+                    user: true,
+                    show: false,
+                    load: false
+                  })
+                }
+               
+                
+
+              }
+
+
+            })
+          } else {
+            console.log('2.2')
+            this.setState({
+              show: true,
+              load: false
+            })
+
+
+          }
+
+
+        })
+      } else {
+        console.log('1.2')
+        this.setState({
+          show: true,
+          load: false
+        })
+      }
+
+
+
+
     }
   }
 
@@ -131,6 +179,7 @@ class App extends Component {
       pass: ""
     });
   }
+
 
   render() {
     return (
@@ -162,112 +211,112 @@ class App extends Component {
 
                   <div className="column is-1" id="A">
                     {this.state.user
-                      ? 
+                      ?
+                      <Animated
+                        animationIn="flipInX"
+                        animationOut="fadeOut"
+                        isVisible={true}
+                      >
+                        <strong className="has-text-grey">
+                          {"Welcome " + this.state.name + "!"}
+                        </strong>
+                      </Animated>
+
+                      :
+                      <strong className="has-text-grey">
                         <Animated
                           animationIn="flipInX"
                           animationOut="fadeOut"
                           isVisible={true}
                         >
-                          <strong className="has-text-grey">
-                            {"Welcome " + this.state.name + "!"}
-                          </strong>
+                          Welcome Guest!{" "}
                         </Animated>
-                      
-                      : 
-                        <strong className="has-text-grey">
-                          <Animated
-                            animationIn="flipInX"
-                            animationOut="fadeOut"
-                            isVisible={true}
-                          >
-                            Welcome Guest!{" "}
-                          </Animated>
-                        </strong>
-                      }
+                      </strong>
+                    }
                   </div>
 
                   <div className="column is-2 is-gapless ">
                     {this.state.show
-                      ? 
+                      ?
+                      <Animated
+                        animationIn="flipInX"
+                        animationOut="fadeOut"
+                        isVisible={true}
+                      >
+                        <div id="BB" className="column has-text-centered ">
+                          <div class="notification is-danger">
+                            <button
+                              class="delete"
+                              onClick={e => this.setState({ show: false })}
+                            />
+                            ชื่อ / รหัส ผิดน้าา ลองใหม่นะจ้ะ :)
+                              </div>
+                        </div>
+                      </Animated>
+
+                      :
+                      this.state.user ?
                         <Animated
                           animationIn="flipInX"
-                          animationOut="fadeOut"
+                          animationOut="flipInX"
                           isVisible={true}
                         >
-                          <div id="BB" className="column has-text-centered ">
-                            <div class="notification is-danger">
-                              <button
-                                class="delete"
-                                onClick={e => this.setState({ show: false })}
-                              />
-                              ชื่อ / รหัส ผิดน้าา ลองใหม่นะจ้ะ :)
-                              </div>
+                          <div class="column has-text-centered ">
+                            <button
+                              id="B"
+                              class="button is-dark is-rounded"
+                              onClick={this.isLogout}
+                            >
+                              {this.state.user ? "Logout" : "Login"}
+                            </button>
                           </div>
                         </Animated>
-                      
-                      : 
-                        this.state.user ? 
+                        :
+                        <div class="column has-text-centered ">
                           <Animated
                             animationIn="flipInX"
                             animationOut="flipInX"
                             isVisible={true}
                           >
-                            <div class="column has-text-centered ">
-                              <button
-                                id="B"
-                                class="button is-dark is-rounded"
-                                onClick={this.isLogout}
-                              >
-                                {this.state.user ? "Logout" : "Login"}
-                              </button>
-                            </div>
+                            <input
+                              class="input is-primary is-rounded  is-small"
+                              type="text"
+                              placeholder="Username"
+                              onChange={e =>
+                                this.setState({ name: e.target.value })
+                              }
+                            />
+
+                            <input
+                              style={{ marginTop: 2 }}
+                              class="input is-primary is-rounded  is-small"
+                              type="password"
+                              placeholder="Password"
+                              onChange={e =>
+                                this.setState({ pass: e.target.value })
+                              }
+                              onKeyPress={e => this.isLoginKey(e)}
+                            />
+
+                            <a
+                              style={{ marginTop: 5, marginRight: 2 }}
+                              class={this.state.load ? "button is-primary is-rounded is-small is-loading" : "button is-primary is-rounded is-small "}
+                              onClick={this.isLogin}
+                            >
+                              Login
+                                </a>
+
+                            <a
+                              style={{ marginTop: 5 }}
+                              class="button is-primary is-rounded is-small "
+                              onClick={e => this.setState({ regis: true })}
+                            >
+                              Sign up
+                                </a>
                           </Animated>
-                         : 
-                            <div class="column has-text-centered ">
-                              <Animated
-                                animationIn="flipInX"
-                                animationOut="flipInX"
-                                isVisible={true}
-                              >
-                                <input
-                                  class="input is-primary is-rounded  is-small"
-                                  type="text"
-                                  placeholder="Username"
-                                  onChange={e =>
-                                    this.setState({ name: e.target.value })
-                                  }
-                                />
+                        </div>
 
-                                <input
-                                  style={{ marginTop: 2 }}
-                                  class="input is-primary is-rounded  is-small"
-                                  type="password"
-                                  placeholder="Password"
-                                  onChange={e =>
-                                    this.setState({ pass: e.target.value })
-                                  }
-                                  onKeyPress={e => this.isLoginKey(e)}
-                                />
-
-                                <a
-                                  style={{ marginTop: 5, marginRight: 2 }}
-                                  class={this.state.load ? "button is-primary is-rounded is-small is-loading" : "button is-primary is-rounded is-small "}
-                                  onClick={this.isLogin}
-                                >
-                                  Login
-                                </a>
-
-                                <a
-                                  style={{ marginTop: 5 }}
-                                  class="button is-primary is-rounded is-small "
-                                  onClick={e => this.setState({ regis: true })}
-                                >
-                                  Sign up
-                                </a>
-                              </Animated>
-                            </div>
-                          
-                      }
+                    }
                   </div>
                 </div>
               </div>
@@ -277,7 +326,7 @@ class App extends Component {
         <div className="App container">
           {this.state.user ?
 
-            [<Route path="/" component={() => <Home name={this.state.name} />} />]
+            <Route path="/" component={() => <Home name={this.state.name} />} />
             :
             <div>
               {this.state.regis ?
