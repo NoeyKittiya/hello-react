@@ -1,7 +1,10 @@
 body {
+  position: fixed;
   margin: 0;
   padding: 0;
-  
+  height: 100%;
+  width: 100%;
+  /* background-color: rgb(250, 252, 238); */
   font-family: 'Kanit', sans-serif;
 }
 

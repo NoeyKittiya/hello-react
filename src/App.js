@@ -187,7 +187,7 @@ class App extends Component {
         <div className="container-fullhd ">
           <div className="notification">
             <Animated
-              animationIn="tada"
+              animationIn="fadeInDown"
               animationOut="fadeOut"
               isVisible={true}
             >
