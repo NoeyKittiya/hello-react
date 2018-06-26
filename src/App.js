@@ -6,7 +6,7 @@ import Register from "./register";
 import "./App.css";
 import { Animated } from "react-animated-css";
 import Chat from './Chat';
-
+import firebase from "firebase";
 
 class App extends Component {
 
@@ -18,42 +18,66 @@ class App extends Component {
       pass: "",
       show: false,
       regis: false,
+      load: false,
     };
     this.isLogin = this.isLogin.bind(this);
     this.isLogout = this.isLogout.bind(this);
   }
 
   isLogin() {
-    if ((this.state.name === "art") & (this.state.name === this.state.pass)) {
-      this.setState({
-        user: true
-      });
-    } else if (
-      (this.state.name === "mon") &
-      (this.state.name === this.state.pass)
-    ) {
-      this.setState({
-        user: true
-      });
-    } else if (
-      (this.state.name === "bank") &
-      (this.state.name === this.state.pass)
-    ) {
-      this.setState({
-        user: true
-      });
-    } else if (
-      (this.state.name === "noey") &
-      (this.state.name === this.state.pass)
-    ) {
-      this.setState({
-        user: true
-      });
+    this.setState({load: true})
+    var config = {
+      apiKey: "AIzaSyCPZtFdctQrB-SyR0sFfYWBW3CTpiqbDi4",
+      authDomain: "finapp-1c327.firebaseapp.com",
+      databaseURL: "https://finapp-1c327.firebaseio.com",
+      projectId: "finapp-1c327",
+      storageBucket: "finapp-1c327.appspot.com",
+      messagingSenderId: "72060197826"
+    };
+
+    if (!firebase.apps.length) {
+      this.app = firebase.initializeApp(config);
+      console.log('open at register')
+    } else {
+      this.app = firebase.app();
+    }
+    if (this.state.name !== "") {
+      this.db = this.app.database().ref("userInfo");
+      this.db.on("value", snap => {
+        snap.forEach(element => {
+          let named = element.val().userName
+          let name = this.state.name
+          if (name.toLowerCase() === named.toLowerCase()) {
+            let pass = element.val().passWord
+            let passes = this.state.pass
+            if( passes === pass){
+              this.setState({
+                user: true,
+                show: false,
+                load: false
+              })
+            }else {
+            this.setState({
+             show: true,
+             load: false
+              
+            })
+          }
+        }
+
+        })
+
+      })
     } else {
       this.setState({
-        show: true
-      });
+        show: true,
+        load: false
+      })
     }
+
+
+
+   
   }
   isLoginKey(e) {
     if (e.key === "Enter") {
@@ -134,13 +158,13 @@ class App extends Component {
                           animationOut="fadeOut"
                           isVisible={true}
                         >
-                          <strong>
-                            {"Welcome " + this.state.name + "! "}
+                          <strong class="has-text-grey">
+                            {"Welcome " + this.state.name + "!"}
                           </strong>
                         </Animated>
                       ]
                       : [
-                        <strong>
+                        <strong class="has-text-grey">
                           <Animated
                             animationIn="flipInX"
                             animationOut="fadeOut"
@@ -217,7 +241,7 @@ class App extends Component {
 
                                 <a
                                   style={{ marginTop: 5, marginRight: 2 }}
-                                  class="button is-primary is-rounded is-small "
+                                  class={this.state.load ? "button is-primary is-rounded is-small is-loading" : "button is-primary is-rounded is-small " }
                                   onClick={this.isLogin}
                                 >
                                   Login
@@ -226,7 +250,7 @@ class App extends Component {
                                 <a
                                   style={{ marginTop: 5 }}
                                   class="button is-primary is-rounded is-small "
-                                  onClick={e => this.setState({regis: true})}
+                                  onClick={e => this.setState({ regis: true })}
                                 >
                                   Sign up
                                 </a>
@@ -241,25 +265,25 @@ class App extends Component {
           </div>
         </div>
         <div className="App container">
-          {this.state.user ? 
-     
+          {this.state.user ?
+
             [<Route path="/" component={() => <Home name={this.state.name} />} />]
-            : 
+            :
             <div>
               {this.state.regis ?
                 [<Route path="/" component={Register} />]
-            :
-            [<Route path="/" component={Auth} />]
-            }
+                :
+                [<Route path="/" component={Auth} />]
+              }
 
             </div>
-          
-            
-            
-            
-            
-        }
-            
+
+
+
+
+
+          }
+
 
         </div>
         <Chat name={this.state.name} how={this.state.user} />

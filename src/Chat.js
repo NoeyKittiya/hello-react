@@ -46,7 +46,7 @@ class Chat extends Component {
             };
             if (!firebase.apps.length) {
                 this.app = firebase.initializeApp(config);
-
+                console.log('open at del method')
             } else {
                 this.app = firebase.app();
 
@@ -88,6 +88,7 @@ class Chat extends Component {
             };
             if (!firebase.apps.length) {
                 this.app = firebase.initializeApp(config);
+                console.log('open at add method')
 
             } else {
                 this.app = firebase.app();
@@ -100,7 +101,7 @@ class Chat extends Component {
             this.db = this.app.database().ref(user + "/" + name)
             this.db.push({ num: money })
             addResponseMessage("เพิ่มหนี้เรียบร้อยครับ^^")
-            this.props.isLoad
+            
 
         }
         else {

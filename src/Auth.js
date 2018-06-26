@@ -21,8 +21,8 @@ class auth extends Component {
 
                 <Animated animationIn="bounceInLeft" animationOut="fadeOut" isVisible={true}>
                     <div>
-                    <p class="title is-1 ">Stop !</p>
-                <p class="subtitle is-3">Just Login, If you never have account just click sign up</p>
+                    <p class="title is-1 has-text-danger">Just Login !</p>
+                <p class="subtitle is-3">If you never have account click sign up.</p>
                     </div>
                 </Animated>
 

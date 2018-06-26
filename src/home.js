@@ -35,7 +35,7 @@ class home extends Component {
       let user = this.props.name;
       if (!firebase.apps.length) {
         this.app = firebase.initializeApp(config);
-        console.log('open')
+        console.log('open at home')
     }else{
         this.app = firebase.app();
         
